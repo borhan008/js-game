@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bottle Game</title>
+    <link rel="stylesheet" href="assests/css/style.css" />
+    <script
+      type="text/javascript"
+      src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="assests/js/jquery.touchSwipe.min.js"
+    ></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="max-width container-inner">
+        <div class="can" id="canswipe">
+          <img src="assests/img/can.png" alt="" />
+        </div>
+        <div class="steps">
+          <img src="assests/img/table.png" alt="" />
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let cnt = 1;
+      const arr = ["lost1", "lost2", "win", "lost2", "lost1"];
+      console.log(arr[0]);
+      const handleCan = () => {
+        if (document.querySelector(".container-inner").hasAttribute("disabled"))
+          return;
+        let rand = Math.floor(Math.random() * 5);
+        document
+          .querySelector(".container-inner")
+          .setAttribute("disabled", "true");
+
+        document.getElementById("canswipe").classList.add(arr[rand]);
+
+        setTimeout(() => {
+          document
+            .querySelector(".container-inner")
+            .removeAttribute("disabled");
+          document.getElementById("canswipe").classList.remove(arr[rand]);
+          if (arr[rand] == "win") {
+            if (cnt % 2 == 1) {
+              alert("First Wins!");
+            } else {
+              alert("Second Wins!");
+            }
+          }
+          cnt++;
+        }, 3000);
+      };
+
+      $(function () {
+        //Enable swiping...
+        $(".container").swipe({
+          //Generic swipe handler for all directions
+          swipe: function (
+            event,
+            direction,
+            distance,
+            duration,
+            fingerCount,
+            fingerData
+          ) {
+            if (direction == "up") {
+              handleCan();
+            }
+          },
+          //Default is 75px, set to 0 for demo so any distance triggers swipe
+          threshold: 0,
+        });
+      });
+    </script>
+  </body>
+</html>
